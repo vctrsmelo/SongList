@@ -22,11 +22,10 @@ class Shuffle_SongsTests: XCTestCase {
     func testSongAttributes() {
         let attributes: [String: Any] = ["artistName": "MC Arianne", "trackName": "Amor de Anteontem"]
         
-        let song = Song(attributes: attributes)
-        //        let song = DictionaryDecoder.decode(Song.self, from: attributes)
+        let song = DictionaryDecoder.decode(Song.self, from: attributes)
         
-        XCTAssertEqual(song.artistName, "MC Arianne")
-        XCTAssertEqual(song.trackName, "Amor de Anteontem")
+        XCTAssertEqual(song?.artistName, "MC Arianne")
+        XCTAssertEqual(song?.trackName, "Amor de Anteontem")
     }
     
 }

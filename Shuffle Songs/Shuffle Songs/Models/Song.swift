@@ -10,12 +10,7 @@ import Foundation
 
 struct Song: Decodable {
     
-    var artistName: String?
-    var trackName: String?
+    var artistName: String
+    var trackName: String
     
-    /// Used for testing
-    init(attributes: [String: Any]) {
-        self.artistName = attributes["artistName"] as? String
-        self.trackName = attributes["trackName"] as? String
-    }
 }
