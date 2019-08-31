@@ -99,21 +99,13 @@ class ShuffleListViewModel {
      
      - Returns: Return list with max size of `length` elements, from songs parameter, where for every two songs from same artists, they aren't next each other.
      - Precondition:
-        - songs.count >= length
         - length > 0
      - Postcondition:
-        - return.count <= length
-        - return.count > 0
+        - return.count <= min(songs.count,length)
      - Important:
         it is not guaranteed that return will have length elements. The rule of two artists songs should not be next each other is always respected. If it is not possible to return a list of `length` elements, without breaking this rule, an smaller list will be returned.
     */
     public func getShuffled(_ songs: [Song], length: Int) -> [Song] {
-        
-        // these guards are related to precondition. Important: return [] in these cases does not break postcondition of "return.count > 0", as precondition are not being respected here.
-        guard songs.count >= length else {
-            assertionFailure("[ShuffleListViewModel] length parameter should be greater than songs.count")
-            return []
-        }
         
         guard length > 0 else {
             assertionFailure("[ShuffleListViewModel] length should not be zero")
@@ -123,8 +115,12 @@ class ShuffleListViewModel {
         var inputSongs = songs.shuffled()
         var outputSongs: [Song] = [inputSongs.first!]
 
+        var shouldAddMoreOutputSongs: Bool {
+            return outputSongs.count < min(length, inputSongs.count)
+        }
+        
         var i = 1
-        while outputSongs.count < length && i < inputSongs.count {
+        while shouldAddMoreOutputSongs && i < inputSongs.count {
             
             // get next song from different artist.
             if inputSongs[i].artistName != outputSongs[outputSongs.count-1].artistName {
