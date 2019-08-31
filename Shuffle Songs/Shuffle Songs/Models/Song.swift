@@ -8,9 +8,7 @@
 
 import Foundation
 
-struct Song: Decodable {
-    
+struct Song: Decodable, Equatable {
     var artistName: String
     var trackName: String
-    
 }
