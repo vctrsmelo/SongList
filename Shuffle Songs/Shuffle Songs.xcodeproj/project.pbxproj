@@ -10,8 +10,8 @@
 		EE531C2A23196EC5007A9C24 /* DictionaryDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE531C2923196EC5007A9C24 /* DictionaryDecoder.swift */; };
 		EE555C94231A00A4007088EA /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE555C93231A00A4007088EA /* ModelTests.swift */; };
 		EE555C96231A00FF007088EA /* ShuffleListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE555C95231A00FF007088EA /* ShuffleListViewModelTests.swift */; };
+		EE555C98231A0367007088EA /* ShuffleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE555C97231A0367007088EA /* ShuffleListViewController.swift */; };
 		EE9D6AB723195FF2000F771D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9D6AB623195FF2000F771D /* AppDelegate.swift */; };
-		EE9D6AB923195FF2000F771D /* ShuffleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9D6AB823195FF2000F771D /* ShuffleListViewController.swift */; };
 		EE9D6ABE23195FF6000F771D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE9D6ABD23195FF6000F771D /* Assets.xcassets */; };
 		EE9D6AC123195FF6000F771D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE9D6ABF23195FF6000F771D /* LaunchScreen.storyboard */; };
 		EEFECA5523196AAD001F111A /* ShuffleListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFECA5423196AAD001F111A /* ShuffleListViewModel.swift */; };
@@ -34,9 +34,9 @@
 		EE531C2923196EC5007A9C24 /* DictionaryDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryDecoder.swift; sourceTree = "<group>"; };
 		EE555C93231A00A4007088EA /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
 		EE555C95231A00FF007088EA /* ShuffleListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuffleListViewModelTests.swift; sourceTree = "<group>"; };
+		EE555C97231A0367007088EA /* ShuffleListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuffleListViewController.swift; sourceTree = "<group>"; };
 		EE9D6AB323195FF2000F771D /* Shuffle Songs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shuffle Songs.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE9D6AB623195FF2000F771D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EE9D6AB823195FF2000F771D /* ShuffleListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuffleListViewController.swift; sourceTree = "<group>"; };
 		EE9D6ABD23195FF6000F771D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EE9D6AC023195FF6000F771D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EE9D6AC223195FF6000F771D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -137,8 +137,8 @@
 		EE9D6AD72319619B000F771D /* Shuffle List */ = {
 			isa = PBXGroup;
 			children = (
-				EE9D6AB823195FF2000F771D /* ShuffleListViewController.swift */,
 				EEFECA5423196AAD001F111A /* ShuffleListViewModel.swift */,
+				EE555C97231A0367007088EA /* ShuffleListViewController.swift */,
 			);
 			path = "Shuffle List";
 			sourceTree = "<group>";
@@ -278,10 +278,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEFECA5823196AC3001F111A /* Song.swift in Sources */,
-				EE9D6AB923195FF2000F771D /* ShuffleListViewController.swift in Sources */,
 				EEFECA5B23196BC0001F111A /* SongsAPIService.swift in Sources */,
 				EEFECA5523196AAD001F111A /* ShuffleListViewModel.swift in Sources */,
 				EE531C2A23196EC5007A9C24 /* DictionaryDecoder.swift in Sources */,
+				EE555C98231A0367007088EA /* ShuffleListViewController.swift in Sources */,
 				EE9D6AB723195FF2000F771D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
