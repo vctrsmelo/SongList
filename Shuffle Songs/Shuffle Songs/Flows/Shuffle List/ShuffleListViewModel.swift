@@ -26,7 +26,7 @@ class ShuffleListViewModel {
     
     // MARK: - Properties
     
-    let artistsIDs = ["909253", "1171421960", "358714030", "1419227", "264111789"]
+    let artistsIDs: [String]
     
     private let limitSongs = 5
     
@@ -49,8 +49,9 @@ class ShuffleListViewModel {
     
     // MARK: - Init
     
-    init(service: SongsService) {
+    init(artistsIDs: [String], service: SongsService) {
         self.service = service
+        self.artistsIDs = artistsIDs
 
         fetchSongsShuffled { maybeSongs in
             self.shuffledSongs = maybeSongs ?? []
