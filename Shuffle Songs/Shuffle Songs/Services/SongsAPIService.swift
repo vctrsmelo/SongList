@@ -7,3 +7,15 @@
 //
 
 import Foundation
+
+protocol SongsService {
+    func fetchSongs(artistsIds: [String]) -> [Song]
+}
+
+class SongsAPIService: SongsService {
+    
+    func fetchSongs(artistsIds: [String]) -> [Song] {
+        return []
+    }
+
+}
