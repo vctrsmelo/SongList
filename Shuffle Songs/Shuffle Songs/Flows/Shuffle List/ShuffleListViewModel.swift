@@ -52,15 +52,16 @@ class ShuffleListViewModel {
     init(artistsIDs: [String], service: SongsService) {
         self.service = service
         self.artistsIDs = artistsIDs
-
-        fetchSongsShuffled { maybeSongs in
-            self.shuffledSongs = maybeSongs ?? []
+        
+        fetchSongs { [weak self] maybeSongs in
+            guard let self = self else { return }
+            self.shuffledSongs = self.getShuffled(maybeSongs ?? [], length: self.limitSongs)
         }
     }
     
     // MARK: - Service
     
-    func fetchSongsShuffled(completion: @escaping ([Song]?) -> Void) {
+    func fetchSongs(completion: @escaping ([Song]?) -> Void) {
 
         service.fetchSongs(artistsIds: artistsIDs) { [weak self] result in
             guard let self = self else { return }
@@ -68,9 +69,8 @@ class ShuffleListViewModel {
             switch result {
             case .success(let songs):
                 self.cacheSongs = songs
-                
-                DispatchQueue.main.sync {
-                    completion(self.getShuffled(songs, length: self.limitSongs))
+                self.syncIfNeeded {
+                    completion(songs)
                 }
             case .failure(let error):
                 print("[ShuffleListViewModel Error] \(error.localizedDescription)")
@@ -83,8 +83,10 @@ class ShuffleListViewModel {
     
     func didTapShuffleButton() {
         guard let cacheSongs = cacheSongs else {
-            self.fetchSongsShuffled { maybeSongs in
-                self.shuffledSongs = maybeSongs ?? []
+            // songs are not cached. Should fetch them
+            self.fetchSongs { [weak self] maybeSongs in
+                guard let self = self else { return }
+                self.shuffledSongs = self.getShuffled(maybeSongs ?? [], length: self.limitSongs)
             }
             
             return
@@ -135,6 +137,17 @@ class ShuffleListViewModel {
     
     func getItem(at index: Int) -> CellData {
         return CellData(title: shuffledSongs[index].trackName, subtitle: shuffledSongs[index].artistName, image: UIImage())
+    }
+    
+    /// Sync closure to main thread for UI updates.
+    func syncIfNeeded(_ closure: () -> Void) {
+        if Thread.isMainThread {
+            closure()
+        } else {
+            DispatchQueue.main.sync{
+                closure()
+            }
+        }
     }
     
 }
