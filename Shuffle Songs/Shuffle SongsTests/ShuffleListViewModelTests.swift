@@ -11,12 +11,19 @@ import XCTest
 
 class ShuffleListViewModelTests: XCTestCase {
     
-    var viewModel: ShuffleListViewModel
-    var songs: [Song]
+    var viewModel: ShuffleListViewModel!
+    var songs: [Song]!
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        viewModel = ShuffleListViewModel(service: MockedAPIService)
+        songs = []
+        
+        let lookupResponseData = self.loadStubFromBundle(withName: "lookupResponse", extension: "json")
+        let lookupResponse = try! JSONDecoder().decode(LookupResponse.self, from: lookupResponseData)
+        
+        let mockedAPIService = SongsServiceMock(lookupResponse: lookupResponse)
+        
+        viewModel = ShuffleListViewModel(service: mockedAPIService)
     }
 
     override func tearDown() {
@@ -30,6 +37,4 @@ class ShuffleListViewModelTests: XCTestCase {
         XCTAssertEqual(songs.sorted(), inputSongs.sorted())
     }
     
-    
-
 }
