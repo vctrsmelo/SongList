@@ -140,7 +140,9 @@ class ShuffleListViewModel {
     }
     
     /// Sync closure to main thread for UI updates.
+    /// - Important: This logic is here because it is not Service responsibility to keep it sync, as it is something importante for view update, and ViewController (delegate) should not know that something is being updated in background thread or not.
     func syncIfNeeded(_ closure: () -> Void) {
+        // unit tests uses main thread, as service is mocked.
         if Thread.isMainThread {
             closure()
         } else {

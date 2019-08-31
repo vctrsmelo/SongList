@@ -35,12 +35,22 @@ class ShuffleListViewController: UIViewController {
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
+        
+        view.backgroundColor = DesignConfigurator.backgroundColor
+        tableView.backgroundColor = DesignConfigurator.backgroundColor
+        
         setupNavigationBar()
         setupTableView()
     }
     
     private func setupNavigationBar() {
-        self.title = "Shuffle Songs"
+        title = "Shuffle Songs"
+        
+        navigationController?.navigationBar.barTintColor = DesignConfigurator.navigationBarColor
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.barStyle = .black
+        
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: DesignConfigurator.fontNavigationBarColor]
 
         let rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "shuffleButton"), style: .plain, target: self, action: #selector(didTapShuffleBarButton))
         
@@ -52,6 +62,8 @@ class ShuffleListViewController: UIViewController {
         
         self.tableView.register(SongTableViewCell.self, forCellReuseIdentifier: cellID)
         
+        self.tableView.separatorColor = UIColor(red: 55/255, green: 45/255, blue: 56/255, alpha: 1)
+        
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
@@ -59,6 +71,7 @@ class ShuffleListViewController: UIViewController {
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         
         tableView.dataSource = self
+        tableView.delegate = self
     }
     
     // MARK: - Actions
@@ -88,7 +101,16 @@ extension ShuffleListViewController: UITableViewDataSource {
         
         return cell
     }
+    
+    
 }
+
+extension ShuffleListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 144
+    }
+}
+
 
 extension ShuffleListViewController: ShuffleListViewModelDelegate {
     func updateView(_ state: ViewState, viewModel: ShuffleListViewModel) {
