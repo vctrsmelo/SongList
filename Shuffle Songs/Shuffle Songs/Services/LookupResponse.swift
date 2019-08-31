@@ -9,14 +9,15 @@
 import Foundation
 
 // MARK: - LookupResponse
-struct LookupResponse {
+struct LookupResponse: Decodable {
     let resultCount: Int?
-    let results: [Result]?
+    let results: [LookupResult]?
 }
 
 // MARK: - Result
-struct Result {
+struct LookupResult: Decodable {
     let artistName: String?
+    let trackName: String?
     let id: Int?
     let wrapperType: String?
     let artistType: String?
@@ -26,9 +27,8 @@ struct Result {
     let trackExplicitness: String?
     let trackCensoredName: String?
     let collectionID: Int?
-    let trackName: String?
     let country: String?
     let artworkURL: String?
-    let releaseDate: Date?
+    let releaseDate: String?
     let artistID: Int?
 }
