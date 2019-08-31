@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EE2B67A5231972A000DFAF6A /* Shuffle_SongsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2B67A4231972A000DFAF6A /* Shuffle_SongsTests.swift */; };
 		EE531C2A23196EC5007A9C24 /* DictionaryDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE531C2923196EC5007A9C24 /* DictionaryDecoder.swift */; };
+		EE555C94231A00A4007088EA /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE555C93231A00A4007088EA /* ModelTests.swift */; };
+		EE555C96231A00FF007088EA /* ShuffleListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE555C95231A00FF007088EA /* ShuffleListViewModelTests.swift */; };
 		EE9D6AB723195FF2000F771D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9D6AB623195FF2000F771D /* AppDelegate.swift */; };
 		EE9D6AB923195FF2000F771D /* ShuffleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9D6AB823195FF2000F771D /* ShuffleListViewController.swift */; };
 		EE9D6ABE23195FF6000F771D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE9D6ABD23195FF6000F771D /* Assets.xcassets */; };
@@ -30,8 +31,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		EE2B67A4231972A000DFAF6A /* Shuffle_SongsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shuffle_SongsTests.swift; sourceTree = "<group>"; };
 		EE531C2923196EC5007A9C24 /* DictionaryDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryDecoder.swift; sourceTree = "<group>"; };
+		EE555C93231A00A4007088EA /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
+		EE555C95231A00FF007088EA /* ShuffleListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuffleListViewModelTests.swift; sourceTree = "<group>"; };
 		EE9D6AB323195FF2000F771D /* Shuffle Songs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shuffle Songs.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE9D6AB623195FF2000F771D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EE9D6AB823195FF2000F771D /* ShuffleListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuffleListViewController.swift; sourceTree = "<group>"; };
@@ -72,6 +74,14 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		EE555C922319FFB9007088EA /* Flows */ = {
+			isa = PBXGroup;
+			children = (
+				EE9D6AD72319619B000F771D /* Shuffle List */,
+			);
+			path = Flows;
+			sourceTree = "<group>";
+		};
 		EE9D6AAA23195FF2000F771D = {
 			isa = PBXGroup;
 			children = (
@@ -94,10 +104,10 @@
 			isa = PBXGroup;
 			children = (
 				EE9D6AB623195FF2000F771D /* AppDelegate.swift */,
+				EEFECA5623196ABA001F111A /* Models */,
+				EE555C922319FFB9007088EA /* Flows */,
 				EE531C2823196EB6007A9C24 /* Common */,
 				EEFECA5923196BAC001F111A /* Services */,
-				EEFECA5623196ABA001F111A /* Models */,
-				EE9D6AD72319619B000F771D /* Shuffle List */,
 				EE9D6AD9231961AF000F771D /* Resources */,
 				EE9D6AD623196193000F771D /* Supporting Files */,
 			);
@@ -109,7 +119,8 @@
 			children = (
 				EEFECA5C23196CCF001F111A /* Stubs */,
 				EE9D6ACD23195FF6000F771D /* Info.plist */,
-				EE2B67A4231972A000DFAF6A /* Shuffle_SongsTests.swift */,
+				EE555C93231A00A4007088EA /* ModelTests.swift */,
+				EE555C95231A00FF007088EA /* ShuffleListViewModelTests.swift */,
 			);
 			path = "Shuffle SongsTests";
 			sourceTree = "<group>";
@@ -279,7 +290,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE2B67A5231972A000DFAF6A /* Shuffle_SongsTests.swift in Sources */,
+				EE555C94231A00A4007088EA /* ModelTests.swift in Sources */,
+				EE555C96231A00FF007088EA /* ShuffleListViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
