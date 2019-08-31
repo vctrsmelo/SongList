@@ -9,11 +9,6 @@
 import Foundation
 @testable import Shuffle_Songs
 
-enum SongsServiceMockError: Error {
-    case emptyResults
-    case forcedError
-}
-
 class SongsServiceMock: SongsService {
 
     var isSuccess = true
@@ -25,14 +20,23 @@ class SongsServiceMock: SongsService {
     
     func fetchSongs(artistsIds: [String], completion: ((Result<[Song], SongsServiceError>) -> Void)) {
         guard let results = lookupResponse.results else {
-            completion(.failure(SongsServiceError.fetchSongsFailure(error: SongsServiceMockError.emptyResults)))
+            completion(.failure(SongsServiceError.fetchSongsFailure(description:
+                "lookupResponse results are empty")))
             return
         }
         
         if isSuccess {
-            completion(.success(results.map { Song(fromResult: $0) }))
+            
+            let songs: [Song] = results.compactMap {
+                guard let artistName = $0.artistName, let trackName = $0.trackName else {
+                    return nil
+                }
+                return Song(artistName: artistName, trackName: trackName)
+            }
+            
+            completion(.success(songs))
         } else {
-            completion(.failure(SongsServiceError.fetchSongsFailure(error: SongsServiceMockError.forcedError)))
+            completion(.failure(SongsServiceError.fetchSongsFailure(description: "forced mock failure")))
         }
     }
 }
