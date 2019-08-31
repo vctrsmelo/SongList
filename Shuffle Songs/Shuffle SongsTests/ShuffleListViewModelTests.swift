@@ -12,29 +12,47 @@ import XCTest
 class ShuffleListViewModelTests: XCTestCase {
     
     var viewModel: ShuffleListViewModel!
-    var songs: [Song]!
-
+    var mockedAPIService: SongsServiceMock!
+    
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        songs = []
-        
+
         let lookupResponseData = self.loadStubFromBundle(withName: "lookupResponse", extension: "json")
         let lookupResponse = try! JSONDecoder().decode(LookupResponse.self, from: lookupResponseData)
-        
-        let mockedAPIService = SongsServiceMock(lookupResponse: lookupResponse)
-        
-        viewModel = ShuffleListViewModel(service: mockedAPIService)
-    }
 
+        mockedAPIService = SongsServiceMock(lookupResponse: lookupResponse)
+        viewModel = ShuffleListViewModel(service: mockedAPIService)
+        
+    }
+    
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func getSongsTest() {
-        let songs = viewModel.getSongsShuffled()
+    func testGetSongs() {
         
-        XCTAssertNotNil(songs)
-        XCTAssertEqual(songs.sorted(), inputSongs.sorted())
+        mockedAPIService.fetchSongs(artistsIds: viewModel.artistsIDs) { result in
+            guard case .success(let fetchedSongs) = result else {
+                XCTFail("mock failed")
+                return
+            }
+            
+            let songs = viewModel.getShuffled(fetchedSongs, length: 5)
+            
+            print(songs)
+            
+            XCTAssertNotNil(songs)
+            XCTAssertTrue(songs.count <= 5)
+            
+            songs.forEach { song in
+                let isContainedInSelfSongs = fetchedSongs.contains(where: { fetchedSong -> Bool in
+                    return fetchedSong == song
+                })
+                
+                XCTAssertTrue(isContainedInSelfSongs)
+            }
+
+        }
     }
     
 }
