@@ -11,6 +11,7 @@ import UIKit //only imported for UIImage CellData
 
 protocol ShuffleListViewModelDelegate {
     func didUpdateSongs(viewModel: ShuffleListViewModel)
+    func updateView(_ state: ViewState, viewModel: ShuffleListViewModel)
 }
 
 class ShuffleListViewModel {
@@ -51,26 +52,44 @@ class ShuffleListViewModel {
     init(service: SongsService) {
         self.service = service
 
-        getSongsShuffled { maybeSongs in
+        fetchSongsShuffled { maybeSongs in
             self.shuffledSongs = maybeSongs ?? []
         }
     }
     
     // MARK: - Service
     
-    func getSongsShuffled(completion: @escaping ([Song]?) -> Void) {
+    func fetchSongsShuffled(completion: @escaping ([Song]?) -> Void) {
 
         service.fetchSongs(artistsIds: artistsIDs) { [weak self] result in
             guard let self = self else { return }
             
             switch result {
             case .success(let songs):
-                completion(self.getShuffled(songs, length: self.limitSongs))
+                self.cacheSongs = songs
+                
+                DispatchQueue.main.sync {
+                    completion(self.getShuffled(songs, length: self.limitSongs))
+                }
             case .failure(let error):
                 print("[ShuffleListViewModel Error] \(error.localizedDescription)")
                 completion(nil)
             }
         }
+    }
+    
+    // MARK: - User Actions
+    
+    func didTapShuffleButton() {
+        guard let cacheSongs = cacheSongs else {
+            self.fetchSongsShuffled { maybeSongs in
+                self.shuffledSongs = maybeSongs ?? []
+            }
+            
+            return
+        }
+        
+        self.shuffledSongs = self.getShuffled(cacheSongs, length: limitSongs)
     }
     
     // MARK: - Others

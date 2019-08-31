@@ -18,8 +18,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         
+        let navigationController = UINavigationController()
+        
         let viewModel = ShuffleListViewModel(service: SongsAPIService())
-        window?.rootViewController = ShuffleListViewController(viewModel: viewModel)
+        navigationController.pushViewController(ShuffleListViewController(viewModel: viewModel), animated: false)
+        window?.rootViewController = navigationController
         
         window?.makeKeyAndVisible()
 

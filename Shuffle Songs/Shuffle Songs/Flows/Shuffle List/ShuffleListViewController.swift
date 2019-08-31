@@ -35,6 +35,19 @@ class ShuffleListViewController: UIViewController {
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
+        setupNavigationBar()
+        setupTableView()
+    }
+    
+    private func setupNavigationBar() {
+        self.title = "Shuffle Songs"
+
+        let rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "shuffleButton"), style: .plain, target: self, action: #selector(didTapShuffleBarButton))
+        
+        self.navigationItem.rightBarButtonItem = rightBarButtonItem
+    }
+    
+    private func setupTableView() {
         self.view.addSubview(tableView)
         
         self.tableView.register(SongTableViewCell.self, forCellReuseIdentifier: cellID)
@@ -44,12 +57,16 @@ class ShuffleListViewController: UIViewController {
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-
-        tableView.dataSource = self
         
+        tableView.dataSource = self
     }
     
     // MARK: - Actions
+    
+    @objc
+    func didTapShuffleBarButton(_ sender: UIBarButtonItem) {
+        self.viewModel.didTapShuffleButton()
+    }
     
     // MARK: - Others
     
@@ -74,9 +91,11 @@ extension ShuffleListViewController: UITableViewDataSource {
 }
 
 extension ShuffleListViewController: ShuffleListViewModelDelegate {
+    func updateView(_ state: ViewState, viewModel: ShuffleListViewModel) {
+        
+    }
+    
     func didUpdateSongs(viewModel: ShuffleListViewModel) {
-        DispatchQueue.main.sync {
-            self.tableView.reloadData()
-        }
+        self.tableView.reloadData()
     }
 }
