@@ -6,4 +6,16 @@
 //  Copyright © 2019 Victor S Melo. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+class ShuffleListViewController: UIViewController {
+
+    // MARK: - Properties
+    
+    // MARK: - View Life Cycle
+    
+    // MARK: - Actions
+    
+    // MARK: - Others
+    
+}

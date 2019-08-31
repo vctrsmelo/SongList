@@ -8,6 +8,18 @@
 
 import Foundation
 
+protocol ShuffleListViewModelDelegate {
+    
+}
+
 class ShuffleListViewModel {
+    
+    // MARK: - Properties
+    
+    // MARK: - Init
+    
+    // MARK: - Service
+    
+    // MARK: - Others
     
 }
