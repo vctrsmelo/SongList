@@ -21,7 +21,7 @@ class ShuffleListViewModelTests: XCTestCase {
         let lookupResponse = try! JSONDecoder().decode(LookupResponse.self, from: lookupResponseData)
 
         mockedAPIService = SongsServiceMock(lookupResponse: lookupResponse)
-        viewModel = ShuffleListViewModel(service: mockedAPIService)
+        viewModel = ShuffleListViewModel(artistsIDs: ["909253", "1171421960", "358714030", "1419227", "264111789"], service: mockedAPIService)
         
     }
     

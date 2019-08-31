@@ -28,9 +28,12 @@ class SongsServiceMock: SongsService {
         if isSuccess {
             
             let songs: [Song] = results.compactMap {
-                guard let artistName = $0.artistName, let trackName = $0.trackName else {
+                guard let artistName = $0.artistName, let trackName = $0.trackName, let artistID = $0.artistID else {
                     return nil
                 }
+                
+                guard artistsIds.contains(artistID) else { return nil }
+                
                 return Song(artistName: artistName, trackName: trackName)
             }
             

@@ -30,5 +30,5 @@ struct LookupResult: Decodable {
     let country: String?
     let artworkURL: String?
     let releaseDate: String?
-    let artistID: Int?
+    let artistID: String?
 }
