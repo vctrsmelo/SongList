@@ -14,13 +14,16 @@ class ShuffleListViewController: UIViewController {
     
     let viewModel: ShuffleListViewModel
     
+    var rightBarButtonItem: UIBarButtonItem!
+    
     private let cellID = "songCellID"
-    let tableView: UITableView
+    let tableView = UITableView()
+    
+    let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
     
     // MARK: - Init
     init(viewModel: ShuffleListViewModel) {
         self.viewModel = viewModel
-        self.tableView = UITableView()
         
         super.init(nibName: nil, bundle: nil)
         
@@ -41,19 +44,24 @@ class ShuffleListViewController: UIViewController {
         
         setupNavigationBar()
         setupTableView()
+        setupActivityIndicator()
+        
+        self.updateView(viewModel.viewState)
     }
     
     private func setupNavigationBar() {
         title = "Shuffle Songs"
         
+        navigationController?.navigationBar.titleTextAttributes = [
+            .foregroundColor: DesignConfigurator.fontNavigationBarColor,
+            .font: UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.bold)
+        ]
+        
         navigationController?.navigationBar.barTintColor = DesignConfigurator.navigationBarColor
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.barStyle = .black
-        
-        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: DesignConfigurator.fontNavigationBarColor]
 
-        let rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "shuffleButton"), style: .plain, target: self, action: #selector(didTapShuffleBarButton))
-        
+        rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "shuffleButton"), style: .plain, target: self, action: #selector(didTapShuffleBarButton))
         self.navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
@@ -74,6 +82,17 @@ class ShuffleListViewController: UIViewController {
         tableView.delegate = self
     }
     
+    private func setupActivityIndicator() {
+        view.addSubview(activityIndicator)
+        
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
+        activityIndicator.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
+        
+        activityIndicator.hidesWhenStopped = true
+    }
+    
     // MARK: - Actions
     
     @objc
@@ -83,6 +102,27 @@ class ShuffleListViewController: UIViewController {
     
     // MARK: - Others
     
+    func updateView(_ state: ViewState) {
+        switch state {
+        case .error(let description):
+            let alert = UIAlertController(title: "Error", message: description, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            self.present(alert, animated: true)
+            break
+        case .loading:
+            tableView.isHidden = true
+            activityIndicator.isHidden = false
+            rightBarButtonItem.isEnabled = false
+            activityIndicator.startAnimating()
+            break
+        case .showing:
+            activityIndicator.stopAnimating()
+            rightBarButtonItem.isEnabled = true
+            tableView.isHidden = false
+        default:
+            break
+        }
+    }
 }
 
 extension ShuffleListViewController: UITableViewDataSource {
@@ -96,25 +136,22 @@ extension ShuffleListViewController: UITableViewDataSource {
         }
         
         let item = viewModel.getItem(at: indexPath.row)
-        cell.textLabel?.text = item.title
-        cell.detailTextLabel?.text = item.subtitle
+        cell.configure(title: item.title, subtitle: item.subtitle, image: item.image)
         
         return cell
     }
     
-    
 }
 
 extension ShuffleListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 144
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
-
 extension ShuffleListViewController: ShuffleListViewModelDelegate {
     func updateView(_ state: ViewState, viewModel: ShuffleListViewModel) {
-        
+        updateView(state)
     }
     
     func didUpdateSongs(viewModel: ShuffleListViewModel) {
