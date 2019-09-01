@@ -101,9 +101,11 @@ class ShuffleListViewController: UIViewController {
     
     func updateView(_ state: ViewState) {
         switch state {
-        case .error(let description):
-            let alert = UIAlertController(title: "Error", message: description, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        case .error(let title, let description):
+            let alert = UIAlertController(title: title, message: description, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { [weak self] _ in
+                self?.viewModel.loadSongs()
+            }))
             self.present(alert, animated: true)
             break
         case .loading:

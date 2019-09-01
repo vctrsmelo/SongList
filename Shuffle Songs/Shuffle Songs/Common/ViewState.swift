@@ -11,6 +11,6 @@ import Foundation
 enum ViewState {
     case empty
     case loading
-    case error(description: String)
+    case error(title: String, description: String)
     case showing
 }

@@ -68,17 +68,8 @@ class ShuffleListViewModel {
     init(artistsIDs: [String], service: SongsService) {
         self.service = service
         self.artistsIDs = artistsIDs
-        
-        self.viewState = .loading
-        fetchSongs { [weak self] maybeSongs in
-            guard let self = self else { return }
-            
-            self.fetchArtworks(maybeSongs ?? [], completion: { songs in
-                self.cacheSongs = songs
-                self.shuffledItems = songs.map { CellData(song: $0) }
-                self.viewState = .showing
-            })
-        }
+
+        loadSongs()
     }
     
     // MARK: - Service
@@ -150,6 +141,24 @@ class ShuffleListViewModel {
     }
     
     // MARK: - Others
+    
+    func loadSongs() {
+        self.viewState = .loading
+        fetchSongs { [weak self] maybeSongs in
+            guard let self = self else { return }
+            
+            guard let songs = maybeSongs else {
+                self.viewState = .error(title: "Network Error", description: "Could not display songs. Please, try again later.")
+                return
+            }
+            
+            self.fetchArtworks(songs, completion: { songs in
+                self.cacheSongs = songs
+                self.shuffledItems = songs.map { CellData(song: $0) }
+                self.viewState = .showing
+            })
+        }
+    }
 
     func getItem(at index: Int) -> CellData {
         return shuffledItems[index]
