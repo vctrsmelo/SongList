@@ -26,20 +26,24 @@ class SongsServiceMock: SongsService {
         }
         
         if isSuccess {
-            
             let songs: [Song] = results.compactMap {
-                guard let artistName = $0.artistName, let trackName = $0.trackName, let artistID = $0.artistID else {
+                guard let artistName = $0.artistName, let trackName = $0.trackName, let artistID = $0.artistID, let artworkUrl = $0.artworkUrl else {
                     return nil
                 }
                 
                 guard artistsIds.contains(artistID) else { return nil }
                 
-                return Song(artistName: artistName, trackName: trackName)
+                return Song(artistName: artistName, trackName: trackName, artworkURL: artworkUrl)
             }
             
             completion(.success(songs))
         } else {
             completion(.failure(SongsServiceError.fetchSongsFailure(description: "forced mock failure")))
         }
+    }
+    
+    
+    func fetchAlbumImageData(imageURL: String, completion: @escaping ((Result<Data, SongsServiceError>) -> Void)) {
+        completion(.success(Data()))
     }
 }

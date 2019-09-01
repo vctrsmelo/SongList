@@ -28,30 +28,53 @@ class ShuffleListViewModelTests: XCTestCase {
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
+    
+    func testGetShuffled() {
+        // Given
+        let viewModel = self.viewModel
+        var songs = [
+            Song(artistName: "Artist1", trackName: "Track1", artworkURL: "url"),
+            Song(artistName: "Artist1", trackName: "Track2", artworkURL: "url"),
+            Song(artistName: "Artist1", trackName: "Track3", artworkURL: "url"),
+            Song(artistName: "Artist2", trackName: "Track4", artworkURL: "url")
+        ]
+        var shuffledSongs = [Song]()
 
-    func testGetSongs() {
+        // When
+        shuffledSongs = viewModel?.getShuffled(songs) ?? []
         
-        mockedAPIService.fetchSongs(artistsIds: viewModel.artistsIDs) { result in
-            guard case .success(let fetchedSongs) = result else {
+        // Then
+        XCTAssertEqual(shuffledSongs.count, songs.count)
+        
+    }
+
+    func testFetchSongs() {
+        
+        // Given
+        let artistsIDs = viewModel.artistsIDs
+        var fetchedSongs: [Song] = []
+        var shuffledSongs: [Song]?
+        let expectation = self.expectation(description: "Did receive response")
+
+        // When
+        mockedAPIService.fetchSongs(artistsIds: artistsIDs) { result in
+            guard case .success(let songs) = result else {
                 XCTFail("mock failed")
                 return
             }
             
-            let songs = viewModel.getShuffled(fetchedSongs, length: 5)
-            
-            print(songs)
-            
-            XCTAssertNotNil(songs)
-            XCTAssertTrue(songs.count <= 5)
-            
-            songs.forEach { song in
-                let isContainedInSelfSongs = fetchedSongs.contains(where: { fetchedSong -> Bool in
-                    return fetchedSong == song
-                })
-                
-                XCTAssertTrue(isContainedInSelfSongs)
-            }
+            fetchedSongs = songs
+            shuffledSongs = viewModel.getShuffled(fetchedSongs)
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 1, handler: nil)
 
+        // Then
+        XCTAssertNotNil(shuffledSongs)
+        
+        fetchedSongs.forEach { song in
+            XCTAssertTrue(shuffledSongs!.contains(song))
         }
     }
     

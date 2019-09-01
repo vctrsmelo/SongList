@@ -18,6 +18,8 @@
 		EE6AC52F231ADB18007A0C96 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6AC52E231ADB18007A0C96 /* APIService.swift */; };
 		EE6AC531231B0EB6007A0C96 /* CustomShuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6AC530231B0EB6007A0C96 /* CustomShuffle.swift */; };
 		EE6AC536231C32CB007A0C96 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE6AC535231C32CB007A0C96 /* Assets.xcassets */; };
+		EE6AC540231C3D68007A0C96 /* CustomShuffleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6AC53F231C3D68007A0C96 /* CustomShuffleTests.swift */; };
+		EE6AC542231C60A1007A0C96 /* SongTableViewCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6AC541231C60A1007A0C96 /* SongTableViewCellTests.swift */; };
 		EE914223231A38AF0091522B /* SongTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE914222231A38AF0091522B /* SongTableViewCell.swift */; };
 		EE9D6AB723195FF2000F771D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9D6AB623195FF2000F771D /* AppDelegate.swift */; };
 		EE9D6AC123195FF6000F771D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE9D6ABF23195FF6000F771D /* LaunchScreen.storyboard */; };
@@ -49,6 +51,8 @@
 		EE6AC52E231ADB18007A0C96 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		EE6AC530231B0EB6007A0C96 /* CustomShuffle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShuffle.swift; sourceTree = "<group>"; };
 		EE6AC535231C32CB007A0C96 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EE6AC53F231C3D68007A0C96 /* CustomShuffleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShuffleTests.swift; sourceTree = "<group>"; };
+		EE6AC541231C60A1007A0C96 /* SongTableViewCellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongTableViewCellTests.swift; sourceTree = "<group>"; };
 		EE914222231A38AF0091522B /* SongTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongTableViewCell.swift; sourceTree = "<group>"; };
 		EE9D6AB323195FF2000F771D /* Shuffle Songs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shuffle Songs.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE9D6AB623195FF2000F771D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -152,9 +156,11 @@
 				EE555C9B231A081B007088EA /* Mocks */,
 				EEFECA5C23196CCF001F111A /* Stubs */,
 				EE9D6ACD23195FF6000F771D /* Info.plist */,
-				EE555C93231A00A4007088EA /* ModelTests.swift */,
-				EE555C95231A00FF007088EA /* ShuffleListViewModelTests.swift */,
 				EE555C9E231A08C5007088EA /* Utils.swift */,
+				EE555C93231A00A4007088EA /* ModelTests.swift */,
+				EE6AC53F231C3D68007A0C96 /* CustomShuffleTests.swift */,
+				EE555C95231A00FF007088EA /* ShuffleListViewModelTests.swift */,
+				EE6AC541231C60A1007A0C96 /* SongTableViewCellTests.swift */,
 			);
 			path = "Shuffle SongsTests";
 			sourceTree = "<group>";
@@ -333,8 +339,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE555C94231A00A4007088EA /* ModelTests.swift in Sources */,
+				EE6AC540231C3D68007A0C96 /* CustomShuffleTests.swift in Sources */,
 				EE555C9D231A082D007088EA /* SongsServiceMock.swift in Sources */,
 				EE555C96231A00FF007088EA /* ShuffleListViewModelTests.swift in Sources */,
+				EE6AC542231C60A1007A0C96 /* SongTableViewCellTests.swift in Sources */,
 				EE555C9F231A08C5007088EA /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
