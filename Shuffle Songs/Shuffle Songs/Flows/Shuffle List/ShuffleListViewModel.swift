@@ -22,29 +22,45 @@ class ShuffleListViewModel {
         let title: String
         let subtitle: String
         let image: UIImage
+        
+        init(song: Song) {
+            self.title = song.trackName
+            self.subtitle = song.artistName
+
+            guard let data = song.artworkData, let image = UIImage(data: data) else {
+                self.image = UIImage()
+                return
+            }
+
+            self.image = image
+        }
     }
     
     // MARK: - Properties
     
     let artistsIDs: [String]
     
-    private let limitSongs = 5
-    
     let service: SongsService
     var delegate: ShuffleListViewModelDelegate?
+    
+    var viewState: ViewState = .empty {
+        didSet {
+            self.delegate?.updateView(viewState, viewModel: self)
+        }
+    }
     
     // all songs received from service
     private var cacheSongs: [Song]? = []
 
     // songs to be displayed to user
-    private var shuffledSongs: [Song] = [] {
+    private var shuffledItems: [CellData] = [] {
         didSet {
             self.delegate?.didUpdateSongs(viewModel: self)
         }
     }
     
     var itemLength: Int {
-        return shuffledSongs.count
+        return shuffledItems.count
     }
     
     // MARK: - Init
@@ -53,16 +69,21 @@ class ShuffleListViewModel {
         self.service = service
         self.artistsIDs = artistsIDs
         
+        self.viewState = .loading
         fetchSongs { [weak self] maybeSongs in
             guard let self = self else { return }
-            self.shuffledSongs = self.getShuffled(maybeSongs ?? [], length: self.limitSongs)
+            
+            self.fetchArtworks(maybeSongs ?? [], completion: { songs in
+                self.cacheSongs = songs
+                self.shuffledItems = songs.map { CellData(song: $0) }
+                self.viewState = .showing
+            })
         }
     }
     
     // MARK: - Service
     
     func fetchSongs(completion: @escaping ([Song]?) -> Void) {
-
         service.fetchSongs(artistsIds: artistsIDs) { [weak self] result in
             guard let self = self else { return }
             
@@ -79,64 +100,70 @@ class ShuffleListViewModel {
         }
     }
     
+    private func fetchArtworks(_ songs: [Song], completion: @escaping ([Song]) -> Void) {
+        
+        let fetchArtworkGroup = DispatchGroup()
+        
+        var returnSongs = songs
+        
+        for i in 0 ..< songs.count {
+            
+            // should not fetch again previously fetched artworkData
+            if songs[i].artworkData != nil {
+                continue
+            }
+            
+            fetchArtworkGroup.enter()
+            
+            service.fetchAlbumImageData(imageURL: songs[i].artworkURL) { result in
+                switch result {
+                case .failure(let error):
+                    print("could not fetch artwork from URL: \(songs[i].artworkURL). Error: \(error.localizedDescription)")
+                case .success(let data):
+                    returnSongs[i].artworkData = data
+                }
+                fetchArtworkGroup.leave()
+            }
+        }
+        
+        fetchArtworkGroup.notify(queue: .main) {
+            completion(returnSongs)
+        }
+        
+        
+    }
+    
     // MARK: - User Actions
     
     func didTapShuffleButton() {
-        guard let cacheSongs = cacheSongs else {
-            // songs are not cached. Should fetch them
-            self.fetchSongs { [weak self] maybeSongs in
-                guard let self = self else { return }
-                self.shuffledSongs = self.getShuffled(maybeSongs ?? [], length: self.limitSongs)
-            }
-            
-            return
-        }
+        guard let cacheSongs = cacheSongs else { return }
         
-        self.shuffledSongs = self.getShuffled(cacheSongs, length: limitSongs)
+        viewState = .loading
+        
+        // async to prevent shuffle algorithm freezing UI
+        DispatchQueue.global().async { [weak self] in
+            guard let self = self else { return }
+            
+            let items = self.getShuffled(cacheSongs).map { CellData(song: $0) }
+            DispatchQueue.main.sync {
+                self.shuffledItems = items
+                self.viewState = .showing
+            }
+        }
     }
     
     // MARK: - Others
 
     /**
-     
-     - Returns: Return list with max size of `length` elements, from songs parameter, where for every two songs from same artists, they aren't next each other.
-     - Precondition:
-        - length > 0
-     - Postcondition:
-        - return.count <= min(songs.count,length)
-     - Important:
-        it is not guaranteed that return will have length elements. The rule of two artists songs should not be next each other is always respected. If it is not possible to return a list of `length` elements, without breaking this rule, an smaller list will be returned.
+     - Returns: Return songs shuffled, where two songs from same artist aren't next each other, if possible.
     */
-    public func getShuffled(_ songs: [Song], length: Int) -> [Song] {
-        
-        guard length > 0 else {
-            assertionFailure("[ShuffleListViewModel] length should not be zero")
-            return []
-        }
-        
-        var inputSongs = songs.shuffled()
-        var outputSongs: [Song] = [inputSongs.first!]
-
-        var shouldAddMoreOutputSongs: Bool {
-            return outputSongs.count < min(length, inputSongs.count)
-        }
-        
-        var i = 1
-        while shouldAddMoreOutputSongs && i < inputSongs.count {
-            
-            // get next song from different artist.
-            if inputSongs[i].artistName != outputSongs[outputSongs.count-1].artistName {
-                outputSongs.append(inputSongs[i])
-            }
-            
-            i += 1
-        }
-        
-        return outputSongs
+    public func getShuffled(_ songs: [Song]) -> [Song] {
+        let customShuffle = CustomShuffle(from: songs)
+        return customShuffle.shuffled()
     }
     
     func getItem(at index: Int) -> CellData {
-        return CellData(title: shuffledSongs[index].trackName, subtitle: shuffledSongs[index].artistName, image: UIImage())
+        return shuffledItems[index]
     }
     
     /// Sync closure to main thread for UI updates.
