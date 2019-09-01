@@ -28,7 +28,7 @@ struct LookupResult: Decodable {
     let trackCensoredName: String?
     let collectionID: Int?
     let country: String?
-    let artworkURL: String?
+    let artworkUrl: String?
     let releaseDate: String?
     let artistID: String?
 }
