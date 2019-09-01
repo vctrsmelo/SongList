@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		EE30A5F1231AB90D00F34E99 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE30A5F0231AB90D00F34E99 /* ViewState.swift */; };
 		EE30A5F3231ACF7F00F34E99 /* DesignConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE30A5F2231ACF7F00F34E99 /* DesignConfigurations.swift */; };
-		EE531C2A23196EC5007A9C24 /* DictionaryDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE531C2923196EC5007A9C24 /* DictionaryDecoder.swift */; };
 		EE555C94231A00A4007088EA /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE555C93231A00A4007088EA /* ModelTests.swift */; };
 		EE555C96231A00FF007088EA /* ShuffleListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE555C95231A00FF007088EA /* ShuffleListViewModelTests.swift */; };
 		EE555C98231A0367007088EA /* ShuffleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE555C97231A0367007088EA /* ShuffleListViewController.swift */; };
@@ -41,7 +40,6 @@
 /* Begin PBXFileReference section */
 		EE30A5F0231AB90D00F34E99 /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		EE30A5F2231ACF7F00F34E99 /* DesignConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignConfigurations.swift; sourceTree = "<group>"; };
-		EE531C2923196EC5007A9C24 /* DictionaryDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryDecoder.swift; sourceTree = "<group>"; };
 		EE555C93231A00A4007088EA /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
 		EE555C95231A00FF007088EA /* ShuffleListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuffleListViewModelTests.swift; sourceTree = "<group>"; };
 		EE555C97231A0367007088EA /* ShuffleListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuffleListViewController.swift; sourceTree = "<group>"; };
@@ -85,7 +83,6 @@
 		EE531C2823196EB6007A9C24 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				EE531C2923196EC5007A9C24 /* DictionaryDecoder.swift */,
 				EE30A5F0231AB90D00F34E99 /* ViewState.swift */,
 				EE30A5F2231ACF7F00F34E99 /* DesignConfigurations.swift */,
 				EE6AC530231B0EB6007A0C96 /* CustomShuffle.swift */,
@@ -325,7 +322,6 @@
 				EEFECA5523196AAD001F111A /* ShuffleListViewModel.swift in Sources */,
 				EE914223231A38AF0091522B /* SongTableViewCell.swift in Sources */,
 				EE30A5F1231AB90D00F34E99 /* ViewState.swift in Sources */,
-				EE531C2A23196EC5007A9C24 /* DictionaryDecoder.swift in Sources */,
 				EE555C98231A0367007088EA /* ShuffleListViewController.swift in Sources */,
 				EE6AC531231B0EB6007A0C96 /* CustomShuffle.swift in Sources */,
 				EE9D6AB723195FF2000F771D /* AppDelegate.swift in Sources */,

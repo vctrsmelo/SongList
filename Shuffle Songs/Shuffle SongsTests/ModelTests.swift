@@ -20,12 +20,14 @@ class ModelTests: XCTestCase {
     }
 
     func testSongAttributes() {
-        let attributes: [String: Any] = ["artistName": "MC Arianne", "trackName": "Amor de Anteontem"]
+        let attributes: [String: Any] = ["artistName": "MC Arianne", "trackName": "Amor de Anteontem", "artworkUrl": "https://url.com"]
         
-        let song = DictionaryDecoder.decode(Song.self, from: attributes)
+        let song = Song(fromAttributes: attributes)
         
-        XCTAssertEqual(song?.artistName, "MC Arianne")
-        XCTAssertEqual(song?.trackName, "Amor de Anteontem")
+        XCTAssertEqual(song.artistName, "MC Arianne")
+        XCTAssertEqual(song.trackName, "Amor de Anteontem")
+        XCTAssertEqual(song.artworkUrl, "https://url.com")
+        XCTAssertNil(song.artworkData)
     }
 
 }
