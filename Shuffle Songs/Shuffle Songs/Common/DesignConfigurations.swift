@@ -9,7 +9,6 @@
 import UIKit
 
 /// Encapsulating design configurations here makes it easier to change these configurations in the future, without need to change every ViewController.
-
 class DesignConfigurator {
     static let backgroundColor = UIColor(named: "backgroundColor")
     static let navigationBarColor = UIColor(named: "navigationBarColor")

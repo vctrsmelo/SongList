@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import UIKit //only imported for UIImage CellData
+import UIKit //only imported for UIImage in CellData
 
 protocol ShuffleListViewModelDelegate {
     func didUpdateSongs(viewModel: ShuffleListViewModel)
@@ -103,7 +103,6 @@ class ShuffleListViewModel {
     private func fetchArtworks(_ songs: [Song], completion: @escaping ([Song]) -> Void) {
         
         let fetchArtworkGroup = DispatchGroup()
-        
         var returnSongs = songs
         
         for i in 0 ..< songs.count {
@@ -114,11 +113,10 @@ class ShuffleListViewModel {
             }
             
             fetchArtworkGroup.enter()
-            
-            service.fetchAlbumImageData(imageURL: songs[i].artworkURL) { result in
+            service.fetchAlbumImageData(imageURL: songs[i].artworkUrl) { result in
                 switch result {
                 case .failure(let error):
-                    print("could not fetch artwork from URL: \(songs[i].artworkURL). Error: \(error.localizedDescription)")
+                    print("could not fetch artwork from URL: \(songs[i].artworkUrl). Error: \(error.localizedDescription)")
                 case .success(let data):
                     returnSongs[i].artworkData = data
                 }
@@ -126,11 +124,10 @@ class ShuffleListViewModel {
             }
         }
         
+        // wait all artworks to be fetched before completion
         fetchArtworkGroup.notify(queue: .main) {
             completion(returnSongs)
         }
-        
-        
     }
     
     // MARK: - User Actions
@@ -154,16 +151,16 @@ class ShuffleListViewModel {
     
     // MARK: - Others
 
+    func getItem(at index: Int) -> CellData {
+        return shuffledItems[index]
+    }
+    
     /**
      - Returns: Return songs shuffled, where two songs from same artist aren't next each other, if possible.
     */
     public func getShuffled(_ songs: [Song]) -> [Song] {
         let customShuffle = CustomShuffle(from: songs)
         return customShuffle.shuffled()
-    }
-    
-    func getItem(at index: Int) -> CellData {
-        return shuffledItems[index]
     }
     
     /// Sync closure to main thread for UI updates.

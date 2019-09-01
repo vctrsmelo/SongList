@@ -9,24 +9,14 @@
 import Foundation
 import UIKit
 
-enum SongsServiceError: LocalizedError {
-    case fetchSongsFailure(description: String)
-    case fetchImageFailure(description: String)
-    
-    var localizedDescription: String {
-        switch self {
-        case .fetchSongsFailure(let description):
-            return "error while fetching songs: \(description)"
-        case .fetchImageFailure(let description):
-            return "error while fetching image: \(description)"
-         }
-    }
-}
+// MARK: - Protocol
 
 protocol SongsService {
     func fetchSongs(artistsIds: [String], completion: @escaping ((Result<[Song],SongsServiceError>) -> Void))
     func fetchAlbumImageData(imageURL: String, completion: @escaping ((Result<Data, SongsServiceError>) -> Void))
 }
+
+// MARK: - Implementation
 
 class SongsAPIService {
     
@@ -35,10 +25,11 @@ class SongsAPIService {
     }
    
     private let mainURL = "https://us-central1-tw-exercicio-mobile.cloudfunctions.net"
+    private let limit = 5
+    
     
     private func getLookupURLString(_ artistsIds: [String], limit: Int) -> String {
         var idsString = artistsIds.first!
-        let limit = 5
         
         artistsIds.forEach { idStr in
             if idStr == artistsIds.first {
@@ -55,15 +46,10 @@ class SongsAPIService {
     }
     
     private func getSongsFrom(_ results: [LookupResult]) -> [Song] {
-        
         let songs: [Song] = results.compactMap {
-            guard let artistName = $0.artistName, let trackName = $0.trackName, let artworkURL = $0.artworkUrl else {
-                return nil
-            }
-        
+            guard let artistName = $0.artistName, let trackName = $0.trackName, let artworkURL = $0.artworkUrl else { return nil }
             return Song(artistName: artistName, trackName: trackName, artworkURL: artworkURL)
         }
-        
         return songs
     }
 }
@@ -130,5 +116,21 @@ extension SongsAPIService: SongsService {
             }
         }
         
+    }
+}
+
+// MARK: - Errors
+
+enum SongsServiceError: LocalizedError {
+    case fetchSongsFailure(description: String)
+    case fetchImageFailure(description: String)
+    
+    var localizedDescription: String {
+        switch self {
+        case .fetchSongsFailure(let description):
+            return "error while fetching songs: \(description)"
+        case .fetchImageFailure(let description):
+            return "error while fetching image: \(description)"
+        }
     }
 }

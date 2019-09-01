@@ -13,18 +13,15 @@ class ShuffleListViewController: UIViewController {
     // MARK: - Properties
     
     let viewModel: ShuffleListViewModel
-    
-    var rightBarButtonItem: UIBarButtonItem!
-    
     private let cellID = "songCellID"
+
+    var rightBarButtonItem: UIBarButtonItem!
     let tableView = UITableView()
-    
     let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
     
     // MARK: - Init
     init(viewModel: ShuffleListViewModel) {
         self.viewModel = viewModel
-        
         super.init(nibName: nil, bundle: nil)
         
         viewModel.delegate = self
@@ -125,6 +122,8 @@ class ShuffleListViewController: UIViewController {
     }
 }
 
+// MARK: - TableView Extensions
+
 extension ShuffleListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.itemLength
@@ -136,7 +135,7 @@ extension ShuffleListViewController: UITableViewDataSource {
         }
         
         let item = viewModel.getItem(at: indexPath.row)
-        cell.configure(title: item.title, subtitle: item.subtitle, image: item.image)
+        cell.configure(songName: item.title, artistName: item.subtitle, artworkImage: item.image)
         
         return cell
     }
@@ -148,6 +147,8 @@ extension ShuffleListViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
+
+// MARK: - Delegates
 
 extension ShuffleListViewController: ShuffleListViewModelDelegate {
     func updateView(_ state: ViewState, viewModel: ShuffleListViewModel) {

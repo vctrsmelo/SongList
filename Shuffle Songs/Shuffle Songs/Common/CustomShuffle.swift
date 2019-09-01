@@ -40,15 +40,14 @@ class CustomShuffle {
         - result.count = self.receivedSongs
     */
     func shuffled() -> [Song] {
-        
+
         // songs returned. Songs are added during each iteration of algorithm below
         var resultSongs: [Song] = []
-    
         var lastArtistAdded = ""
-    
+
         // songs still not added to resultSongs
         var leftSongs = songsDictionary
-        
+
         // priorityQueue to first add artists that have more music, as their musics have greater possibility of being next each other.
         var artistPriorityQueue: [(artist: ArtistName, priority: Int)] = songsDictionary.keys.compactMap { artistName -> (artist: ArtistName, priority: Int) in
             return (artist: artistName, priority: (songsDictionary[artistName] ?? []).count)
@@ -58,13 +57,13 @@ class CustomShuffle {
         var shouldIterate: Bool {
             return artistPriorityQueue.first(where:{ $0.priority > 0 }) != nil
         }
-        
+
         // iterations
-        
+
         while shouldIterate {
             // get priorityQueue desconsidering last added artist
-            let artistQueueWithoutLastArtistAdded = artistPriorityQueue.filter { $0.artist != lastArtistAdded }
-            
+            let artistQueueWithoutLastArtistAdded = artistPriorityQueue.filter { $0.artist != lastArtistAdded && $0.priority > 0 }
+
             // if there is no artist different than lastone added, add all left songs then break.
             if artistQueueWithoutLastArtistAdded.isEmpty {
                 let lastSongs = leftSongs.values.flatMap { songs -> [Song] in
@@ -73,12 +72,12 @@ class CustomShuffle {
                 resultSongs.append(contentsOf: lastSongs)
                 break
             }
-            
+
             // get left artist with most musics left
             let maxPriorityArtist = artistQueueWithoutLastArtistAdded.max { (a1, a2) -> Bool in
                 return a1.priority < a2.priority
             }
-            
+
             // guard let just to not force unwrap. This way, if something weird happens, return the already shuffled songs in production.
             guard let artist = maxPriorityArtist?.artist, var leftArtistSongs = leftSongs[artist] else {
                 assertionFailure("[Warning] should never reach this state during algorithm")
@@ -87,10 +86,10 @@ class CustomShuffle {
 
             let nextSong = leftArtistSongs.popLast()! // get next song
             leftSongs[artist] = leftArtistSongs // remove song from left songs
-            
+
             resultSongs.append(nextSong)
             lastArtistAdded = artist
-            
+
             // decrease priority from added artist
             for i in 0 ..< artistPriorityQueue.count {
                 if artistPriorityQueue[i].artist == artist {
@@ -99,7 +98,7 @@ class CustomShuffle {
                 }
             }
         }
-        
+
         return resultSongs
     }
 }
