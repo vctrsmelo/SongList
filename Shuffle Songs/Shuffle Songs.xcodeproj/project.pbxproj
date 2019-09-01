@@ -16,9 +16,11 @@
 		EE555C9A231A06CA007088EA /* LookupResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE555C99231A06CA007088EA /* LookupResponse.swift */; };
 		EE555C9D231A082D007088EA /* SongsServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE555C9C231A082D007088EA /* SongsServiceMock.swift */; };
 		EE555C9F231A08C5007088EA /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE555C9E231A08C5007088EA /* Utils.swift */; };
+		EE6AC52F231ADB18007A0C96 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6AC52E231ADB18007A0C96 /* APIService.swift */; };
+		EE6AC531231B0EB6007A0C96 /* CustomShuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6AC530231B0EB6007A0C96 /* CustomShuffle.swift */; };
+		EE6AC536231C32CB007A0C96 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE6AC535231C32CB007A0C96 /* Assets.xcassets */; };
 		EE914223231A38AF0091522B /* SongTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE914222231A38AF0091522B /* SongTableViewCell.swift */; };
 		EE9D6AB723195FF2000F771D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9D6AB623195FF2000F771D /* AppDelegate.swift */; };
-		EE9D6ABE23195FF6000F771D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE9D6ABD23195FF6000F771D /* Assets.xcassets */; };
 		EE9D6AC123195FF6000F771D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE9D6ABF23195FF6000F771D /* LaunchScreen.storyboard */; };
 		EEFECA5523196AAD001F111A /* ShuffleListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFECA5423196AAD001F111A /* ShuffleListViewModel.swift */; };
 		EEFECA5823196AC3001F111A /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFECA5723196AC3001F111A /* Song.swift */; };
@@ -46,10 +48,12 @@
 		EE555C99231A06CA007088EA /* LookupResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupResponse.swift; sourceTree = "<group>"; };
 		EE555C9C231A082D007088EA /* SongsServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongsServiceMock.swift; sourceTree = "<group>"; };
 		EE555C9E231A08C5007088EA /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		EE6AC52E231ADB18007A0C96 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		EE6AC530231B0EB6007A0C96 /* CustomShuffle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShuffle.swift; sourceTree = "<group>"; };
+		EE6AC535231C32CB007A0C96 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EE914222231A38AF0091522B /* SongTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongTableViewCell.swift; sourceTree = "<group>"; };
 		EE9D6AB323195FF2000F771D /* Shuffle Songs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shuffle Songs.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE9D6AB623195FF2000F771D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EE9D6ABD23195FF6000F771D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EE9D6AC023195FF6000F771D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EE9D6AC223195FF6000F771D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EE9D6AC723195FF6000F771D /* Shuffle SongsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Shuffle SongsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,6 +88,7 @@
 				EE531C2923196EC5007A9C24 /* DictionaryDecoder.swift */,
 				EE30A5F0231AB90D00F34E99 /* ViewState.swift */,
 				EE30A5F2231ACF7F00F34E99 /* DesignConfigurations.swift */,
+				EE6AC530231B0EB6007A0C96 /* CustomShuffle.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -102,6 +107,14 @@
 				EE555C9C231A082D007088EA /* SongsServiceMock.swift */,
 			);
 			path = Mocks;
+			sourceTree = "<group>";
+		};
+		EE6AC53E231C392C007A0C96 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				EE914222231A38AF0091522B /* SongTableViewCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		EE9D6AAA23195FF2000F771D = {
@@ -161,9 +174,9 @@
 		EE9D6AD72319619B000F771D /* Shuffle List */ = {
 			isa = PBXGroup;
 			children = (
+				EE6AC53E231C392C007A0C96 /* Views */,
 				EEFECA5423196AAD001F111A /* ShuffleListViewModel.swift */,
 				EE555C97231A0367007088EA /* ShuffleListViewController.swift */,
-				EE914222231A38AF0091522B /* SongTableViewCell.swift */,
 			);
 			path = "Shuffle List";
 			sourceTree = "<group>";
@@ -171,7 +184,7 @@
 		EE9D6AD9231961AF000F771D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				EE9D6ABD23195FF6000F771D /* Assets.xcassets */,
+				EE6AC535231C32CB007A0C96 /* Assets.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -189,6 +202,7 @@
 			children = (
 				EEFECA5A23196BC0001F111A /* SongsAPIService.swift */,
 				EE555C99231A06CA007088EA /* LookupResponse.swift */,
+				EE6AC52E231ADB18007A0C96 /* APIService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -283,8 +297,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE6AC536231C32CB007A0C96 /* Assets.xcassets in Resources */,
 				EE9D6AC123195FF6000F771D /* LaunchScreen.storyboard in Resources */,
-				EE9D6ABE23195FF6000F771D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,11 +321,13 @@
 				EEFECA5823196AC3001F111A /* Song.swift in Sources */,
 				EE30A5F3231ACF7F00F34E99 /* DesignConfigurations.swift in Sources */,
 				EEFECA5B23196BC0001F111A /* SongsAPIService.swift in Sources */,
+				EE6AC52F231ADB18007A0C96 /* APIService.swift in Sources */,
 				EEFECA5523196AAD001F111A /* ShuffleListViewModel.swift in Sources */,
 				EE914223231A38AF0091522B /* SongTableViewCell.swift in Sources */,
 				EE30A5F1231AB90D00F34E99 /* ViewState.swift in Sources */,
 				EE531C2A23196EC5007A9C24 /* DictionaryDecoder.swift in Sources */,
 				EE555C98231A0367007088EA /* ShuffleListViewController.swift in Sources */,
+				EE6AC531231B0EB6007A0C96 /* CustomShuffle.swift in Sources */,
 				EE9D6AB723195FF2000F771D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
