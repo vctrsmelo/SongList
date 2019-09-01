@@ -12,6 +12,8 @@ class SongTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     
+    // MARK: Subviews
+    
     private let verticalStack: UIStackView = {
         let v = UIStackView()
         v.translatesAutoresizingMaskIntoConstraints = false
@@ -47,6 +49,20 @@ class SongTableViewCell: UITableViewCell {
         return titleLabel
     }()
     
+    // MARK: Content
+    
+    var artworkImage: UIImage? {
+        return artworkImageView.image
+    }
+
+    var artistName: String? {
+        return artistNameLabel.text
+    }
+    
+    var songName: String? {
+        return songNameLabel.text
+    }
+    
     // MARK: - Init
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -61,6 +77,20 @@ class SongTableViewCell: UITableViewCell {
     
     private func setupUI() {
         self.backgroundColor = nil
+        
+        setupHorizontalStack()
+        setupArtworkImageView()
+        setupSongNameLabel()
+        setupArtistNameLabel()
+        
+        horizontalStack.addArrangedSubview(verticalStack)
+        
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = DesignConfigurator.navigationBarColor
+        self.selectedBackgroundView = backgroundView
+    }
+    
+    private func setupHorizontalStack() {
         self.contentView.addSubview(horizontalStack)
         
         horizontalStack.translatesAutoresizingMaskIntoConstraints = false
@@ -80,7 +110,9 @@ class SongTableViewCell: UITableViewCell {
         let rightMargin = horizontalStack.rightAnchor.constraint(equalTo: contentView.layoutMarginsGuide.rightAnchor)
         rightMargin.priority = .defaultHigh
         rightMargin.isActive = true
-        
+    }
+    
+    private func setupArtworkImageView() {
         horizontalStack.addArrangedSubview(artworkImageView)
         
         artworkImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -93,34 +125,32 @@ class SongTableViewCell: UITableViewCell {
         artworkImageView.layer.masksToBounds = false
         artworkImageView.layer.cornerRadius = 8
         artworkImageView.clipsToBounds = true
-        
-        horizontalStack.addArrangedSubview(verticalStack)
-
+    }
+    
+    private func setupSongNameLabel() {
         verticalStack.addArrangedSubview(songNameLabel)
         songNameLabel.translatesAutoresizingMaskIntoConstraints = false
         songNameLabel.leftAnchor.constraint(equalTo: verticalStack.leftAnchor, constant: 30).isActive = true
         songNameLabel.textColor = DesignConfigurator.fontMainColor
         songNameLabel.font = UIFont.systemFont(ofSize: 18.0, weight: .semibold)
         songNameLabel.adjustsFontSizeToFitWidth = true
-        
+    }
+    
+    private func setupArtistNameLabel() {
         verticalStack.addArrangedSubview(artistNameLabel)
         artistNameLabel.translatesAutoresizingMaskIntoConstraints = false
         songNameLabel.leftAnchor.constraint(equalTo: songNameLabel.leftAnchor).isActive = true
         artistNameLabel.font = UIFont.systemFont(ofSize: 18.0, weight: .semibold)
         artistNameLabel.textColor = DesignConfigurator.fontSecondaryColor
         artistNameLabel.adjustsFontSizeToFitWidth = true
-        
-        let backgroundView = UIView()
-        backgroundView.backgroundColor = DesignConfigurator.navigationBarColor
-        self.selectedBackgroundView = backgroundView
     }
     
     // MARK: - Configure
     
-    func configure(title: String, subtitle: String, image: UIImage?) {
-        self.songNameLabel.text = title
-        self.artistNameLabel.text = subtitle
-        self.artworkImageView.image = image
+    func configure(songName: String, artistName: String, artworkImage: UIImage?) {
+        self.songNameLabel.text = songName
+        self.artistNameLabel.text = artistName
+        self.artworkImageView.image = artworkImage
     }
     
     
