@@ -7,20 +7,25 @@
 //
 
 import Foundation
+import UIKit
 
 enum SongsServiceError: LocalizedError {
     case fetchSongsFailure(description: String)
+    case fetchImageFailure(description: String)
     
     var localizedDescription: String {
         switch self {
         case .fetchSongsFailure(let description):
             return "error while fetching songs: \(description)"
+        case .fetchImageFailure(let description):
+            return "error while fetching image: \(description)"
          }
     }
 }
 
 protocol SongsService {
     func fetchSongs(artistsIds: [String], completion: @escaping ((Result<[Song],SongsServiceError>) -> Void))
+    func fetchAlbumImageData(imageURL: String, completion: @escaping ((Result<Data, SongsServiceError>) -> Void))
 }
 
 class SongsAPIService {
@@ -48,6 +53,19 @@ class SongsAPIService {
         
         return urlString
     }
+    
+    private func getSongsFrom(_ results: [LookupResult]) -> [Song] {
+        
+        let songs: [Song] = results.compactMap {
+            guard let artistName = $0.artistName, let trackName = $0.trackName, let artworkURL = $0.artworkUrl else {
+                return nil
+            }
+        
+            return Song(artistName: artistName, trackName: trackName, artworkURL: artworkURL)
+        }
+        
+        return songs
+    }
 }
 
 extension SongsAPIService: SongsService {
@@ -66,47 +84,51 @@ extension SongsAPIService: SongsService {
         }
         
         let request = URLRequest(url: url)
-        let config = URLSessionConfiguration.default
-        let session = URLSession(configuration: config)
-
-        let task = session.dataTask(with: request) { (data, response, error) in
+        
+        APIService().request(request) { [weak self] result in
+            guard let self = self else { return }
             
-            // error checking
-            
-            guard error == nil else {
-                completion(.failure(SongsServiceError.fetchSongsFailure(description: error!.localizedDescription)))
-                return
-            }
-            
-            guard let responseData = data else {
-                completion(.failure(SongsServiceError.fetchSongsFailure(description: "responseData is nil")))
-                return
-            }
-            
-            // parsing
-            
-            do {
-                let response = try JSONDecoder().decode(LookupResponse.self, from: responseData)
-                
-                guard let results = response.results else {
-                    completion(.failure(SongsServiceError.fetchSongsFailure(description: "results is nil")))
-                    return
-                }
-                
-                let songs: [Song] = results.compactMap {
-                    guard let artistName = $0.artistName, let trackName = $0.trackName else {
-                        return nil
-                    }
-
-                    return Song(artistName: artistName, trackName: trackName)
-                }
-
-                completion(.success(songs))
-            } catch {
+            switch result {
+            case .failure(let error):
                 completion(.failure(SongsServiceError.fetchSongsFailure(description: error.localizedDescription)))
+                
+            case .success(let data):
+                // parsing
+                do {
+                    let response = try JSONDecoder().decode(LookupResponse.self, from: data)
+                    
+                    guard let results = response.results else {
+                        completion(.failure(SongsServiceError.fetchSongsFailure(description: "results is nil")))
+                        return
+                    }
+                    
+                    let songs = self.getSongsFrom(results)
+                    
+                    completion(.success(songs))
+                } catch {
+                    completion(.failure(SongsServiceError.fetchSongsFailure(description: error.localizedDescription)))
+                }
             }
         }
-        task.resume()
+    }
+    
+    func fetchAlbumImageData(imageURL: String, completion: @escaping ((Result<Data, SongsServiceError>) -> Void)) {
+        
+        guard let url = URL(string: imageURL) else {
+            completion(.failure(SongsServiceError.fetchImageFailure(description: "undefined url: \(imageURL)")))
+            return
+        }
+        
+        let urlRequest = URLRequest(url: url)
+        
+        APIService().request(urlRequest) { result in
+            switch result {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(SongsServiceError.fetchImageFailure(description: error.localizedDescription)))
+            }
+        }
         
     }
 }
