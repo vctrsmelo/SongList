@@ -31,8 +31,6 @@ class SongTableViewCellTests: XCTestCase {
         XCTAssertEqual(cell.songName, "songName")
         XCTAssertEqual(cell.artistName, "artistName")
         XCTAssertNotNil(cell.artworkImage)
-        
     }
-
 
 }
